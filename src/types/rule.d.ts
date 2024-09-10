@@ -13,12 +13,12 @@ import type { Pirep, Telemetry } from '../types'
  *
  * If a rule has been violated:
  *
- *  return [true, points, message]
+ *  return [true, message, points ]
  *
  * points and message are optional - if omitted, they're pulled from
  * the 'meta' block
  */
-export type RuleValue = [boolean, number?, string?]
+export type RuleValue = [boolean, string?, number?]
 
 /**
  *
@@ -90,6 +90,11 @@ export interface Meta {
    * The maximum number of violations
    */
   max_count?: number
+
+  /**
+   * The number of points that's substracted by default
+   */
+  points: number
 
   /**
    * This just allows any other properties

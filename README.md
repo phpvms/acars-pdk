@@ -95,7 +95,9 @@ This contains all of the base types:
 
 It also includes other detailed type information, for example `Length`, so you can retrieve that type of information.
 
-## Aircraft Rules:
+---
+
+## Aircraft Configuration:
 
 Aircraft rules are required to inherit the `AircraftConfig` abstract class. An example class would look like:
 
@@ -150,7 +152,6 @@ The configuration is a class which has a few different components.
     - `priority` - from 1 (lowest) to 10 (highest). If there are multiple rules which match this, then which one takes
       priority. All the built-in rules are at a priority 1, and aircraft specifics rules are priority 2. I recommend
       using a priority of 3 or higher. More on this below
-
 2. `features` - this is the type `FeatureAddresses` - see `defs.ts` for the definitions
     - MSFS - the lookups you enter are LVars
     - X-Plane - the looks ups are via datarefs
@@ -286,3 +287,65 @@ In this case, the lookups used for the rules will be:
 
 - beaconLights - `sample/dataref/1|2`
 - landingLights - `override/landing/light/1|2`
+
+---
+
+## Rules Configuration
+
+A rule looks like this:
+
+```typescript
+export default class ExampleRule implements Rule {
+    meta: Meta = {
+        id: 'ExampleRule',
+        name: 'An Example Rule',
+        enabled: true,
+        message: 'A example rule!',
+        states: [],
+        repeatable: false,
+        cooldown: 60,
+        max_count: 3,
+    }
+
+    violated(pirep: Pirep, data: Telemetry, previousData?: Telemetry): RuleValue {
+    }
+}
+```
+
+A rule also has several components:
+
+- Needs to implement the `Rule` interface
+- Has a `meta`, section, hich gives some general information about the configuration:
+    - `id` - A unique ID for this rule
+    - `name` - a name for this rule, it's used as the reference
+    - `enabled`
+    - `message` - a default message when the rule is violated
+    - `states` - a list of `PirepState` of when this rule is to be run
+    - `repeatable` - if it can be violated multiple times
+    - `cooldown` - The amount of time, in seconds, between violations
+    - `max_count` - if it's repeatable, how many times it can maximally be vioalted
+- A `violated()` method, which returns a `RuleValue`
+    - Passed the `pirep` and the `data` (`Telemetry` type)
+
+### Returning a `RuleValue`
+
+The return value is an tuple, with one mandatory value, and 2 optional values:
+
+```
+RuleValue = [boolean, message, points]
+```
+
+```typescript
+// The true/false MUST be there, it's if the rule was violated or not
+return [true]
+
+// Return a message along with the state. If not set or null, it will
+// use `this.meta.message` as the default
+return [true, message]
+
+// This returns that it was violated, uses the default message, but changes
+// the points returned to -10
+return [true, null, -10]
+```
+
+### Helper Methods

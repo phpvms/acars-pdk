@@ -11,10 +11,10 @@ export default class ExampleRule implements Rule {
     enabled: true,
     message: 'A example rule!',
     states: [],
-    repeatable: false, // set from remote later
-    cooldown: 60, // set from remote later
-    max_count: 3, // set from remote later
-    points: -1, // set from remote later
+    repeatable: false,
+    cooldown: 60,
+    max_count: 3,
+    points: -1,
     delay_time: 5000,
   }
 
@@ -24,10 +24,10 @@ export default class ExampleRule implements Rule {
       this.meta.delay_time,
       () => {
         if (data.onGround) {
-          return [false, 0]
+          return [false]
         }
 
-        return [true]
+        return [true, 'The example was violated!', this.meta.points]
       },
     )
   }
