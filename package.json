@@ -1,0 +1,44 @@
+{
+  "name": "acars-pdk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build": "gulp build",
+    "copy": "gulp copy",
+    "buildcopy": "cross-env ACARS_SCRIPTS_PATH=../Content/config/default gulp build copy",
+    "tsbuild": "tsc --build",
+    "lint": "eslint --fix",
+    "format": "prettier --ignore-path .gitignore --write \"src/**/*.+(js|ts|json)\"",
+    "testing": "gulp testing",
+    "watch": "gulp watch"
+  },
+  "keywords": [],
+  "author": "Nabeel Shahzad <nabeel@vmslabs.net>",
+  "license": "ISC",
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^1.13.2",
+    "@stylistic/eslint-plugin-js": "^2.7.2",
+    "@types/node": "^22.5.1",
+    "@typescript-eslint/eslint-plugin": "^8.3.0",
+    "@typescript-eslint/parser": "^8.3.0",
+    "cross-env": "^7.0.3",
+    "del": "^7.1.0",
+    "eslint": "^9.9.1",
+    "gulp": "^5.0.0",
+    "gulp-eslint-new": "^2.3.0",
+    "gulp-rsync": "^0.1.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "gulp-util": "^3.0.8",
+    "merge2": "^1.4.1",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4"
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "plugin",
+  "version": "1.0.0",
+  "type": "module",
+  "config": {
+    "aircraft": {
+      "path": "aircraft"
+    },
+    "rules": {
+      "path": "rules"
+    },
+    "scripts": {
+      "path": "scripts"
+    },
+    "sounds": {
+      "path": "sounds"
+    }
+  }
+}
