@@ -35,7 +35,7 @@ export default class Example extends AircraftConfig {
    * @return {boolean}
    */
   match(title: string, icao: string, config_path: string): boolean {
-    return ['example', 'aircraft'].every(title.includes)
+    return ['example', 'aircraft'].every((w) => title.includes(w))
   }
 
   beaconLights(): FeatureState {

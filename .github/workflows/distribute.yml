@@ -1,0 +1,85 @@
+name: 'Build'
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+jobs:
+  artifacts:
+    name: 'Create release'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install node
+        uses: actions/setup-node@v3
+        with:
+          cache: 'npm'
+
+      - name: npm install
+        run: |
+          npm install
+
+      - name: gulp build
+        run: |
+          npm run build
+
+        # Create a zip from what's in this repo
+      - name: Archive Release
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          type: 'zip'
+          directory: 'dist/'
+          path: '../'
+          filename: 'vmsacars_config.zip'
+          exclusions: '*.git* /*node_modules/* .editorconfig dist'
+          command: "mkdir -p dist"
+
+      # List all the files that have been created
+      - name: 'List files'
+        run: |
+          find dist/ -maxdepth 2  -type f
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: acars-package
+          path: 'dist/*'
+
+  #
+  # Now publish it up
+  #
+  publish:
+    runs-on: ubuntu-latest
+    needs: [ 'artifacts' ]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' || startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: acars-package
+
+    # You can uncomment the method you want to use to upload
+    # Create the environment variables appropriately to set it up
+
+    # Upload via SFTP. See details here:
+    # https://github.com/marketplace/actions/sftp-uploader
+
+    #- name: SFTP uploader
+    #  uses: wangyucode/sftp-upload-action@v2.0.2
+    #  with:
+    #    host: ${{ secrets.SFTP_HOST }}
+    #    password: ${{ secrets.SFTP_PASSWORD }}
+    #    localDir: 'dist'
+    #    remoteDir: ${{ secrets.SFTP_REMOTE_PATH }}
+
+    # Upload to an S3 bucket
+    # https://github.com/actions-marketplace-validations/shallwefootball_upload-s3-action
+    #- name: Upload S3
+    #  uses: shallwefootball/s3-upload-action@master
+    #  with:
+    #    aws_key_id: ${{ secrets.S3_BUILD_ARTIFACTS_ACCESS_KEY_ID }}
+    #    aws_secret_access_key: ${{ secrets.S3_BUILD_ARTIFACTS_SECRET_ACCESS_KEY}}
+    #    aws_bucket: ${{ secrets.S3_BUCKET_NAME }}
+    #    source_dir: 'dist/'
+    #    destination_dir: ''

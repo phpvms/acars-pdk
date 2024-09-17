@@ -7,6 +7,13 @@ Typescript ensures that the interfaces required are following, and that the prop
 are returned so ACARS can run them. While Typescript isn't required, it's best to use it to
 ensure proper values are passed - especially around enums.
 
+This PDK includes build scripts to:
+
+- Convert Typescript to JS, with type checking/linting
+- Stamp the distribution package with versioning
+- Github Actions to build and deploy
+- Scripts to help with development
+
 ---
 
 # Setup
@@ -61,8 +68,8 @@ Github Actions to then upload this zip somewhere for ACARS to download.
 
 #### Automatically build and copy to ACARS
 
-This will setup a watch, and then automatically transpile and then copy the contents of the `dist` folder
-into the `ACARS_PROFILE_PATH` directory that's defined in the `.env` file.
+This will setup a watch, and then automatically transpile and then copy the contents of the
+`dist` folder into the `ACARS_PROFILE_PATH` directory that's defined in the `.env` file.
 
 ```shell
 npm run dev

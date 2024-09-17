@@ -6,8 +6,9 @@
   "main": "app.js",
   "scripts": {
     "build": "gulp build",
+    "clean": "gulp clean",
     "copy": "gulp copy",
-    "buildcopy": "cross-env ACARS_SCRIPTS_PATH=../Content/config/default gulp build copy",
+    "csbuild": "gulp csbuild",
     "tsbuild": "tsc --build",
     "lint": "eslint --fix",
     "format": "prettier --ignore-path .gitignore --write \"src/**/*.+(js|ts|json)\"",
@@ -28,9 +29,7 @@
     "eslint": "^9.9.1",
     "gulp": "^5.0.0",
     "gulp-eslint-new": "^2.3.0",
-    "gulp-rsync": "^0.1.0",
     "gulp-typescript": "^6.0.0-alpha.1",
-    "gulp-util": "^3.0.8",
     "merge2": "^1.4.1",
     "prettier": "^3.3.3",
     "typescript": "^5.5.4"

@@ -1,20 +1,20 @@
 import dotconfig from '@dotenvx/dotenvx'
 import { deleteAsync } from 'del'
+import fs from 'fs'
 import { dest, series, src, watch } from 'gulp'
 import eslint from 'gulp-eslint-new'
-import rsync from 'gulp-rsync'
 import ts from 'gulp-typescript'
-import merge2 from 'merge2'
 
 dotconfig.config()
 
+// console.log(process.env)
 
 /**
  * Different paths we use...
  */
 const paths = {
-    src: 'src',
-    dest: 'dist',
+    src: './src',
+    dist: './dist',
 
     /**
      * ACARS scripts/config directory. This, by default, points to the home directory
@@ -28,40 +28,61 @@ const paths = {
  */
 const tsProject = ts.createProject('tsconfig.json')
 
+function build_ts() {
+    return tsProject.src()
+        .pipe(eslint())
+        .pipe(eslint.failAfterError())
+        .pipe(tsProject())
+        .js.pipe(dest(paths.dist))
+}
+
+function copy_package() {
+    return src([paths.src + '/package.json'])
+        .pipe(dest(paths.dist))
+}
+
 /**
  * Build the project, copy the appropriate files over
  */
-export async function build() {
-    return merge2(
-        // Build the TS files
-        tsProject.src()
-            .pipe(eslint())
-            .pipe(eslint.failAfterError())
-            .pipe(tsProject())
-            .js.pipe(dest(paths.dest)),
-
-
-        // Copy the package json file over
-        src([paths.src + '/package.json']).pipe(dest(paths.dest)),
-    )
-}
+export const build = series(build_ts, copy_package)
 
 /**
  * Copy the files from dist into ACARS_SCRIPTS_PATH
  *
- * @returns {Promise<void>}
  */
-export async function copy() {
+export function copy() {
     console.log(`Copying files to ${paths.acars}`)
-    return src([paths.dest + '/**/*']).pipe(dest(paths.acars))
+
+    return src(['./**/*'], { 'cwd': paths.dist })
+        .pipe(dest(paths.acars))
+}
+
+/**
+ * The build steps that run from the csproj
+ * Force the output path to go into our build directory
+ */
+export const csbuild = series(
+    async () => {
+        paths.acars = '../Content/config/default'
+    },
+    build,
+    copy,
+)
+
+/**
+ * TODO: Build the distribution zip file
+ */
+function build_dist() {
+
 }
 
 /**
  * Build a distribution zip file, which can be easily uploaded
  */
-export function dist() {
-
-}
+export const dist = series(
+    build,
+    build_dist,
+)
 
 /**
  * Watch the src folder for updates, compile them and then copy them
@@ -87,53 +108,14 @@ export { watchFiles as watch }
  * Clean up the /dest directory
  */
 export async function clean() {
-    await deleteAsync([paths.dest])
-}
-
-/**
- * Internal task to copy files over to the PDK distribution
- * @returns {Promise<void>}
- */
-export async function pdk() {
-    const source = '.'
-    const pdk_path = process.env.PDK_DISTRIBUTION_DIRECTORY
-
-    const files = [
-        `${source}/**/*`,
-        `!${source}/bin`,
-        `!${source}/dist`,
-        `!${source}/node_modules`,
-        `!${source}/obj`,
-        `!${source}/.env`,
-        `!${source}/nuget.config`,
-        `!${source}/Content.Source.*`,
-    ]
-
-    src([source]).pipe(rsync({
-        root: '.',
-        destination: pdk_path,
-        recursive: true,
-        exclude: [
-            `${source}/bin`,
-            `${source}/dist`,
-            `${source}/node_modules`,
-            `${source}/obj`,
-            `${source}/.env`,
-            `${source}/nuget.config`,
-            `${source}/Content.Source.*`,
-        ],
-    }))
-
-    /*const deleteFiles = [
-        `${pdk_path}/dist`,
-        `${pdk_path}/node_modules`,
-        `!${pdk_path}/src/aircraft/Example.ts`,
-        `!${pdk_path}/src/rules/example.ts`,
-    ]
-
-    await deleteAsync(deleteFiles, {
-        force: true,
-    })*/
+    try {
+        if (await fs.promises.exists(paths.dist)) {
+            await deleteAsync([paths.dist])
+            await Promise.resolve()
+        }
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 /**

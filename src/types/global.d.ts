@@ -2,27 +2,6 @@ import { RuleValue } from './rule'
 import { AircraftFeature } from '../defs'
 
 declare global {
-  namespace console {
-    /**
-     * Log this item out only once
-     *
-     * @param args
-     */
-    function once(...args: any[]): void {}
-    /**
-     * @param args
-     */
-    function log(...args: any[]): void {}
-    /** A debug message */
-    function debug(...args: any[]): void {}
-    /** A debug message */
-    function error(...args: any[]): void {}
-    /** A debug message */
-    function trace(...args: any[]): void {}
-  }
-}
-
-declare global {
   namespace Acars {
     /**
      * Whether or not the given feature is enabled for the aircraft, depending on the
@@ -101,5 +80,26 @@ declare global {
       level: number,
       percent: number,
     ): boolean {}
+  }
+}
+
+declare global {
+  namespace console {
+    /**
+     * Log this item out only once
+     *
+     * @param args
+     */
+    function once(...args: any[]): void {}
+    /**
+     * @param args
+     */
+    function log(...args: any[]): void {}
+    /** A debug message */
+    function debug(...args: any[]): void {}
+    /** A debug message */
+    function error(...args: any[]): void {}
+    /** A debug message */
+    function trace(...args: any[]): void {}
   }
 }
