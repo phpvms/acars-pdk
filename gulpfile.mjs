@@ -53,7 +53,7 @@ export const build = series(build_ts, copy_package)
 export function copy() {
     console.log(`Copying files to ${paths.acars}`)
 
-    return src(['./**/*'], { 'cwd': paths.dist })
+    return src(['./**/*', '!node_modules/**/*'], { 'cwd': paths.dist })
         .pipe(dest(paths.acars))
 }
 
