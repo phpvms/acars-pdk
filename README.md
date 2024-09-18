@@ -213,7 +213,6 @@ that feature is on or off. That method will have the equivalent number of argume
 Example:
 
 ```typescript
-
 export default class Example extends AircraftConfig {
     features: FeatureAddresses = {
         // Aircraft feature
