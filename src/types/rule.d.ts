@@ -94,7 +94,12 @@ export interface Meta {
   /**
    * The number of points that's substracted by default
    */
-  points: number
+  points?: number
+
+  /**
+   * From upstream
+   */
+  parameter?: number
 
   /**
    * This just allows any other properties

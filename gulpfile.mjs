@@ -109,10 +109,8 @@ export { watchFiles as watch }
  */
 export async function clean() {
     try {
-        if (await fs.promises.exists(paths.dist)) {
-            await deleteAsync([paths.dist])
-            await Promise.resolve()
-        }
+        await deleteAsync([paths.dist])
+        await Promise.resolve()
     } catch (e) {
         console.log(e)
     }

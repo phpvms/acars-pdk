@@ -163,14 +163,15 @@ The configuration is a class which has a few different components.
     - MSFS - the lookups you enter are LVars
     - X-Plane - the looks ups are via datarefs
     - FSUIPC - the lookups are offsets
-3. `match()`
+3. `flapNames` - see below
+4. `match()`
     - This needs to return a boolean
     - A method (`match()`) which passes some information about the starting aircraft
         - For MSFS, it's the aircraft ICAO
         - For FSX/P3d, the value looked at is the aircraft title field, offset `0x3D00`
         - For X-Plane, the value looked at is `sim/aircraft/view/acf_descrip`
         - This method can be used to determine if this rule should match
-4. Methods for the different features (see below)
+5. Methods for the different features (see below)
     - The maps - a group of datarefs or offsets which constitute that feature being "on" or "enabled"
 
 In the above example, for the Fenix A320, the landing lights are controlled by two datarefs, both of which the
