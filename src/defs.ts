@@ -114,10 +114,10 @@ export enum PirepState {
 export enum AircraftFeature {
   BeaconLights = 0,
   LandingLights = 1,
-  LogoLight = 2,
+  LogoLights = 2,
   NavigationLights = 3,
   StrobeLights = 4,
-  TaxiLight = 5,
+  TaxiLights = 5,
   WingLights = 6,
   Flaps = 7,
   APU = 8,

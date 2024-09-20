@@ -97,11 +97,6 @@ export interface Meta {
   points?: number
 
   /**
-   * From upstream
-   */
-  parameter?: number
-
-  /**
    * This just allows any other properties
    */
   [others: string]: any
