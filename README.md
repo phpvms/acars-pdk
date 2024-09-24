@@ -336,23 +336,43 @@ A rule also has several components:
 
 ### Returning a `RuleValue`
 
-The return value is an tuple, with one mandatory value, and 2 optional values:
-
-```
-RuleValue = [boolean, message, points]
-```
+The return value has multiple possible values, sending on
 
 ```typescript
-// The true/false MUST be there, it's if the rule was violated or not
-return [true]
-
-// Return a message along with the state. If not set or null, it will
-// use `this.meta.message` as the default
-return [true, message]
-
-// This returns that it was violated, uses the default message, but changes
-// the points returned to -10
-return [true, null, -10]
+export type RuleValue = undefined | boolean | [string?, number?]
 ```
+
+If a rule is passing/hasn't been violated:
+
+```typescript
+return
+return false
+```
+
+If a rule has been violated:
+
+```typescript
+return true
+```
+
+Or, if you want to return a custom message:
+
+```typescript
+return ['message']
+```
+
+Or, if you want to return a message and points:
+
+```typescript
+return ['message', points]
+```
+
+If you want to return just the points, you can return:
+
+```typescript
+return ['', points]
+```
+
+`points` and `message` are optional - if omitted, they're pulled from the `meta` block
 
 ### Helper Methods

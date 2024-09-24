@@ -22,12 +22,12 @@ export default class ExampleRule implements Rule {
     return Acars.ViolatedAfterDelay(
       this.meta.name,
       this.meta.delay_time,
-      () => {
+      (): RuleValue => {
         if (data.onGround) {
-          return [false]
+          return
         }
 
-        return [true, 'The example was violated!', this.meta.points]
+        return ['The example was violated!', this.meta.points]
       },
     )
   }

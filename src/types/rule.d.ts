@@ -9,16 +9,24 @@ import type { Pirep, Telemetry } from '../types'
  * Return it as a tuple.
  *
  * If a rule is passing/hasn't been violated:
- *  return [false]
- *
+ *    return false
+ *    // or:
+ *    return [false]
+ *a
  * If a rule has been violated:
+ *    return true
+ *    // or, if you want to return a custom message:
+ *    return ['message']
+ *    // or, if you want to return a message and points:
+ *    return ['message', points]
  *
- *  return [true, message, points ]
+ * If you want to return just the points, you can return:
+ *    return ['', points]
  *
  * points and message are optional - if omitted, they're pulled from
  * the 'meta' block
  */
-export type RuleValue = [boolean, string?, number?]
+export type RuleValue = undefined | null | boolean | [string?, number?]
 
 /**
  *
