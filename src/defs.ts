@@ -121,6 +121,12 @@ export enum AircraftFeature {
   WingLights = 6,
   Flaps = 7,
   APU = 8,
+  Doors = 9,
+  Seatbelts = 10,
+  EmergencyLights = 11,
+  AntiIce = 12,
+  Battery = 13,
+  Packs = 14,
 }
 /** The simtype for the rule file */
 export enum AircraftConfigSimType {

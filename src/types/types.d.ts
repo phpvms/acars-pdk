@@ -1,4 +1,5 @@
 import { EngineType } from '../defs'
+import { AircraftFeature } from '../defs'
 import { AircraftType } from '../defs'
 import { FlightPlanType } from '../defs'
 import { GateType } from '../defs'
@@ -35,6 +36,8 @@ export interface Telemetry {
   engineRpm: RotationalSpeed
   /** The type of engine */
   engineType: EngineType
+  /** A dictionary of the various aircraft features and their values */
+  features: { [key in AircraftFeature]: boolean }
   /** Flap position, from 0 */
   flaps: number
   /** The current fuel quantity (weight) */

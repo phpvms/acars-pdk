@@ -135,4 +135,32 @@ export abstract class AircraftConfig {
   wingLights(...args: any): FeatureState {
     return null
   }
+
+  apu(...args: any): FeatureState {
+    return null
+  }
+
+  doors(...args: any): FeatureState {
+    return null
+  }
+
+  seatbelts(...args: any): FeatureState {
+    return null
+  }
+
+  emergencyLights(...args: any): FeatureState {
+    return null
+  }
+
+  antiIce(...args: any): FeatureState {
+    return null
+  }
+
+  battery(...args: any): FeatureState {
+    return null
+  }
+
+  packs(...args: any): FeatureState {
+    return null
+  }
 }
