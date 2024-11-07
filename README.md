@@ -334,6 +334,37 @@ A rule also has several components:
 - A `violated()` method, which returns a `RuleValue`
     - Passed the `pirep` and the `data` (`Telemetry` type)
 
+### Looking at aircraft feature states
+
+To lookup the state of an aircraft feature, look at the `data.Features` dictionary. The following
+rule is evaluated during pushback, and checks that the battery is on:
+
+```typescript
+import { AircraftFeature, PirepState } from './defs'
+
+export default class BatteryOnDuringPushback implements Rule {
+    meta: Meta = {
+        id: 'ExampleRule',
+        name: 'An Example Rule',
+        enabled: true,
+        message: 'A example rule!',
+        states: [PirepState.Pushback],
+        repeatable: false,
+        cooldown: 60,
+        max_count: 3,
+    }
+
+    violated(pirep: Pirep, data: Telemetry, previousData?: Telemetry): RuleValue {
+            // First check that the battery is declared as part of the aircraft's feature set
+        if (AircraftFeature.Battery in data.features
+            // And then check its value to see if it's on or off
+            && data.features[AircraftFeature.Battery] === false) {
+            return ['The battery must be on during pushback']
+        }
+    }
+}
+```
+
 ### Returning a `RuleValue`
 
 The return value has multiple possible values, sending on
