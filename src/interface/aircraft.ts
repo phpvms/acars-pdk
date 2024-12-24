@@ -104,6 +104,17 @@ export abstract class AircraftConfig {
     return this.flapNames[value] || value
   }
 
+  apu(...args: any): FeatureState {
+    return null
+  }
+
+  /**
+   *
+   */
+  autopilot(...args: any): FeatureState {
+    return null
+  }
+
   /**
    * Provide an implementation for but, by default, it's null
    * @param args
@@ -136,10 +147,6 @@ export abstract class AircraftConfig {
     return null
   }
 
-  apu(...args: any): FeatureState {
-    return null
-  }
-
   doors(...args: any): FeatureState {
     return null
   }
@@ -161,6 +168,38 @@ export abstract class AircraftConfig {
   }
 
   packs(...args: any): FeatureState {
+    return null
+  }
+
+  externalPower(...args: any): FeatureState {
+    return null
+  }
+
+  /**
+   * Not Implemented
+   */
+  parkingBrakes(...args: any): FeatureState {
+    return null
+  }
+
+  /**
+   * Not Implemented
+   */
+  engines(...args: any): FeatureState {
+    return null
+  }
+
+  /**
+   * Not Implemented
+   */
+  transponder(...args: any): FeatureState {
+    return null
+  }
+
+  /**
+   * Not Implemented
+   */
+  landingGear(...args: any): FeatureState {
     return null
   }
 }

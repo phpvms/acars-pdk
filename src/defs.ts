@@ -1,3 +1,4 @@
+/** The different gate types */
 export enum GateType {
   None = 0,
   Ramp_GA = 1,
@@ -13,32 +14,14 @@ export enum GateType {
   Dock_GA = 11,
   Fuel = 12,
   Vehicles = 13,
+  /** Added for MSFS */
   Ramp_GA_Extra = 14,
+  /** Added for MSFS */
   Gate_Extra = 15,
+  /** Added for MSFS */
   Jetway = 16,
 }
-export enum AircraftType {
-  Airliner = 0,
-  Cargo = 1,
-  GeneralAviation = 2,
-  Helicopter = 3,
-}
-export enum EngineType {
-  Piston = 0,
-  Jet = 1,
-  None = 2,
-  Helo = 3,
-  Rocket = 4,
-  Turboprop = 5,
-}
-export enum SimType {
-  None = 0,
-  Prepar3D = 1,
-  Xplane = 2,
-  FlightSimulator = 3,
-  Fsx = 4,
-  Fs9 = 5,
-}
+/** The runway/taxiway surface */
 export enum Surface {
   Concrete = 0,
   Grass = 1,
@@ -65,6 +48,34 @@ export enum Surface {
   Shale = 22,
   Tarmac = 23,
   Unknown = 99999,
+}
+export enum AircraftType {
+  Airliner = 0,
+  Cargo = 1,
+  GeneralAviation = 2,
+  Helicopter = 3,
+}
+/** The type of engine */
+export enum EngineType {
+  Piston = 0,
+  Jet = 1,
+  None = 2,
+  Helo = 3,
+  Rocket = 4,
+  Turboprop = 5,
+}
+export enum SimType {
+  None = 0,
+  Prepar3D = 1,
+  Xplane = 2,
+  /** You can use this for ALL FlightSimulator (2020, 2024, and beyond) */
+  FlightSimulator = 3,
+  Fsx = 4,
+  Fs9 = 5,
+  /** Specifically only for MSFS 2020 */
+  FlightSimulator2020 = 6,
+  /** Specifically only for MSFS 2024 */
+  FlightSimulator2024 = 7,
 }
 export enum FareType {
   /** Primarily a passenger flight */
@@ -111,6 +122,13 @@ export enum PirepState {
   Paused = 14,
   OnBlock = 15,
 }
+/** The simtype for the rule file */
+export enum AircraftConfigSimType {
+  MsFs = 0,
+  XPlane = 1,
+  Fsuipc = 2,
+}
+/** Features of an aircraft. They are binary on or off */
 export enum AircraftFeature {
   BeaconLights = 0,
   LandingLights = 1,
@@ -127,12 +145,12 @@ export enum AircraftFeature {
   AntiIce = 12,
   Battery = 13,
   Packs = 14,
-}
-/** The simtype for the rule file */
-export enum AircraftConfigSimType {
-  MsFs = 0,
-  XPlane = 1,
-  Fsuipc = 2,
+  ParkingBrakes = 15,
+  Engines = 16,
+  Transponder = 17,
+  LandingGear = 18,
+  Autopilot = 19,
+  ExternalPower = 20,
 }
 /** The type of the dataref */
 export enum FeatureType {

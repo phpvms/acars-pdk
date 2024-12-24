@@ -185,7 +185,7 @@ Features are essentially stored in a dictionary of dictionaries, of type `Featur
 features: FeatureAddresses = {
     // Aircraft feature
     [AircraftFeature.BeaconLights]: {
-        'lvar name': FeatureType.Int,
+        'Lookup Address': FeatureType.Int,
     },
 }
 ```
@@ -194,6 +194,7 @@ In the above example:
 
 - `AircraftFeature.BeaconLights` is an enum value of the feature type. It's put in `[]` because it's a variable name
 - It's set to an object, where the keys are the lookup address or lvar.
+- `Lookup Address` is where to find this data:
 - `FeatureType.Int` - is the type of value that's returned.
 
 The different features available are:
@@ -210,6 +211,13 @@ The different features available are:
 The different features contain how to look up the value, and the type. You can have multiple variables to be
 read and looked at for a feature. Each feature then corresponds to a method which is called to return if
 that feature is on or off. That method will have the equivalent number of arguments for each data reference
+
+### Lookup Locations
+
+- For FSUIPC, the lookup location is the offset
+- For X-Plane, it's the DRef
+- For MSFS, it's either the LVar name, or a Simvar:
+    - Simvar has to be prefixed with `A:`, e.g, `A:LIGHT LOGO,bool`, and then the type
 
 Example:
 
