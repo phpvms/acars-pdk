@@ -104,6 +104,31 @@ It also includes other detailed type information, for example `Length`, so you c
 
 ---
 
+## Disable Downloading Latest Defaults
+
+Sometimes, it's just useful to disable downloading of the latest defaults, and just edit the scripts that are included
+to see how they work. To do that, create a file in your `Documents/vmsacars` directory, called `appsettings.local.json`,
+and place the following:
+
+```json filename="appsettings.local.json"
+{
+  "Config": {
+    "App": {
+      "DownloadConfig": false
+    }
+  },
+  "Serilog": {
+    "MinimumLevel": {
+      "Default": "Verbose"
+    }
+  }
+}
+```
+
+You can also adjust the log level to "Information", "Debug" or "Verbose" ("Debug" is recommended)
+
+---
+
 ## Aircraft Configuration:
 
 Aircraft rules are required to inherit the `AircraftConfig` abstract class. An example class would look like:
