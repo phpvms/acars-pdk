@@ -62,5 +62,6 @@ tests/baselines/reference/dt
 .failed-tests
 TEST-results.xml
 .eslintcache
+package.g.props
 *v8.log
 /lib/
