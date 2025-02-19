@@ -25,11 +25,7 @@ export interface Telemetry {
   dateTime: DateTimeOffset
   /** The date/time on the client machine */
   dateTimeSystem: DateTimeOffset
-  /**
-   * Empty weight of the aircraft
-   *
-   * @inheritdoc
-   */
+  /** Empty weight of the aircraft */
   emptyWeight: Mass
   /** The number of engines */
   engineCount: number
@@ -93,6 +89,7 @@ export interface Telemetry {
   planeAltitude: Length
   /** Are they in a replay? */
   replay: boolean
+  /** The current runway the user is on */
   runway?: Runway
   /** The current simulation rate */
   simRate: number
