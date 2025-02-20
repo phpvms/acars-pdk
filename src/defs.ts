@@ -124,9 +124,14 @@ export enum PirepState {
 }
 /** The simtype for the rule file */
 export enum AircraftConfigSimType {
+  /** This configuration can be for either MSFS 2020 or 2024 */
   MsFs = 0,
   XPlane = 1,
   Fsuipc = 2,
+  /** Configuration for MSFS 2020 *only* */
+  MsFs20 = 3,
+  /** Configuration for MSFS 2024 *only* */
+  MsFs24 = 4,
 }
 /** Features of an aircraft. They are binary on or off */
 export enum AircraftFeature {

@@ -75,36 +75,7 @@ This will setup a watch, and then automatically transpile and then copy the cont
 npm run dev
 ```
 
-It's recommended to run this *after* you've started ACARS, or, in the ACARS configuration, disable the
-remote-download of configs:
-
-> TODO: Guide on how to disable remote config downloading
-
-
----
-
-# Development Documentation
-
-There are several core files/interfaces that are included:
-
-### `src/global.d.ts`
-
-This describes the globally available functions, including the logging methods available through `console` and
-`Acars`.
-
-### `src/types.d.ts`
-
-This contains all of the base types:
-
-- `Pirep` - data that's available about a PIREP, and it's associated interfaces (`Airport`, `Runway`, etc)
-- `Telemetry` - telemetry information that's come out of the simulator
-- `User` - information about the current user
-
-It also includes other detailed type information, for example `Length`, so you can retrieve that type of information.
-
----
-
-## Disable Downloading Latest Defaults
+### Disable Downloading Latest Defaults
 
 Sometimes, it's just useful to disable downloading of the latest defaults, and just edit the scripts that are included
 to see how they work. To do that, create a file in your `Documents/vmsacars` directory, called `appsettings.local.json`,
@@ -126,6 +97,27 @@ and place the following:
 ```
 
 You can also adjust the log level to "Information", "Debug" or "Verbose" ("Debug" is recommended)
+
+---
+
+# Development Documentation
+
+There are several core files/interfaces that are included:
+
+### `src/global.d.ts`
+
+This describes the globally available functions, including the logging methods available through `console` and
+`Acars`.
+
+### `src/types.d.ts`
+
+This contains all of the base types:
+
+- `Pirep` - data that's available about a PIREP, and it's associated interfaces (`Airport`, `Runway`, etc)
+- `Telemetry` - telemetry information that's come out of the simulator
+- `User` - information about the current user
+
+It also includes other detailed type information, for example `Length`, so you can retrieve that type of information.
 
 ---
 
@@ -180,6 +172,8 @@ The configuration is a class which has a few different components.
         - `AircraftConfigSimType.XPlane`
         - `AircraftConfigSimType.Fsuipc`
         - `AircraftConfigSimType.MsFs`
+      - `AircraftConfigSimType.MsFs20`
+      - `AircraftConfigSimType.MsFs24`
     - `enabled`
     - `priority` - from 1 (lowest) to 10 (highest). If there are multiple rules which match this, then which one takes
       priority. All the built-in rules are at a priority 1, and aircraft specifics rules are priority 2. I recommend
@@ -201,6 +195,14 @@ The configuration is a class which has a few different components.
 
 In the above example, for the Fenix A320, the landing lights are controlled by two datarefs, both of which the
 values need to be 1 or 2 for the landing lights to be considered "on".
+
+#### Targeting MSFS
+
+There are 3 possible values for targetting MSFS in the configs:
+
+    - `AircraftConfigSimType.MsFs` - This will apply the configuration to both 2020 and 2024
+    - `AircraftConfigSimType.MsFs20` - This will be for 2020 ONLY
+    - `AircraftConfigSimType.MsFs24` - This will be for 2024 ONLY
 
 ### Features
 
@@ -265,6 +267,11 @@ export default class Example extends AircraftConfig {
     }
 }
 ```
+
+### Equality Checking
+
+I recommend using `==` instead of `===` for equality comparisons, since the types coming from the sim
+may not always match up or be casted properly (e.g, `1` being returned instead of `true`)
 
 ### Ignoring Features
 
@@ -391,7 +398,7 @@ export default class BatteryOnDuringPushback implements Rule {
             // First check that the battery is declared as part of the aircraft's feature set
         if (AircraftFeature.Battery in data.features
             // And then check its value to see if it's on or off
-            && data.features[AircraftFeature.Battery] === false) {
+            && data.features[AircraftFeature.Battery] == false) {
             return ['The battery must be on during pushback']
         }
     }
