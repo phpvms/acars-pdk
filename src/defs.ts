@@ -106,13 +106,21 @@ export enum PirepState {
   Boarding = 2,
   /** When parking brake is released. Pushback may get skipped over and go directly into taxi out */
   Pushback = 3,
+  /** The aircraft is taxiing out to the runway */
   TaxiOut = 4,
+  /** The aircraft is taking off */
   Takeoff = 5,
+  /** The aircraft is enroute to its destination */
   Enroute = 6,
+  /** The aircraft is on approach to the destination airport */
   Approach = 7,
+  /** The aircraft is on final approach to the runway */
   Final = 8,
+  /** The aircraft has landed */
   Landed = 9,
+  /** The aircraft is taxiing in to the gate */
   TaxiIn = 10,
+  /** The aircraft is on block at the gate */
   Arrived = 11,
   /** Internal only. Rules are not parsed in this state */
   Cancelled = 12,
@@ -120,7 +128,10 @@ export enum PirepState {
   Filed = 13,
   /** Internal only. Rules are not parsed in this state */
   Paused = 14,
+  /** The aircraft is on block at the gate */
   OnBlock = 15,
+  /** The aircraft is climbing to its cruise altitude */
+  InitialClimb = 16,
 }
 /** The simtype for the rule file */
 export enum AircraftConfigSimType {

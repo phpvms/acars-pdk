@@ -1,9 +1,10 @@
 import dotconfig from '@dotenvx/dotenvx'
 import { deleteAsync } from 'del'
-import fs from 'fs'
 import { dest, series, src, watch } from 'gulp'
 import eslint from 'gulp-eslint-new'
 import ts from 'gulp-typescript'
+import prettier from 'gulp-prettier'
+import minify from 'gulp-minify'
 
 dotconfig.config()
 
@@ -13,14 +14,14 @@ dotconfig.config()
  * Different paths we use...
  */
 const paths = {
-    src: './src',
-    dist: './dist',
+  src: './src',
+  dist: './dist',
 
-    /**
-     * ACARS scripts/config directory. This, by default, points to the home directory
-     * But you can change this to point to a local directory
-     */
-    acars: process.env.ACARS_SCRIPTS_PATH,
+  /**
+   * ACARS scripts/config directory. This, by default, points to the home directory
+   * But you can change this to point to a local directory
+   */
+  acars: process.env.ACARS_SCRIPTS_PATH,
 }
 
 /**
@@ -29,16 +30,31 @@ const paths = {
 const tsProject = ts.createProject('tsconfig.json')
 
 function build_ts() {
-    return tsProject.src()
-        .pipe(eslint())
-        .pipe(eslint.failAfterError())
-        .pipe(tsProject())
-        .js.pipe(dest(paths.dist))
+  let pipeline = tsProject.src()
+    .pipe(eslint())
+    .pipe(eslint.failAfterError())
+    .pipe(tsProject())
+    .js
+    .pipe(prettier())
+
+  // Minify/mangle output
+  /*
+  pipeline = pipeline.pipe(minify({
+    mangle: false,
+  }))*/
+
+  pipeline = pipeline.pipe(dest(paths.dist))
+
+  return pipeline
 }
 
+/**
+ *
+ * @returns {*}
+ */
 function copy_package() {
-    return src([paths.src + '/package.json'])
-        .pipe(dest(paths.dist))
+  return src([paths.src + '/package.json'])
+    .pipe(dest(paths.dist))
 }
 
 /**
@@ -51,10 +67,10 @@ export const build = series(build_ts, copy_package)
  *
  */
 export function copy() {
-    console.log(`Copying files to ${paths.acars}`)
+  console.log(`Copying files to ${paths.acars}`)
 
-    return src(['./**/*', '!node_modules/**/*'], { 'cwd': paths.dist })
-        .pipe(dest(paths.acars))
+  return src(['./**/*', '!node_modules/**/*'], { 'cwd': paths.dist })
+    .pipe(dest(paths.acars))
 }
 
 /**
@@ -62,11 +78,11 @@ export function copy() {
  * Force the output path to go into our build directory
  */
 export const csbuild = series(
-    async () => {
-        paths.acars = '../Content/config/default'
-    },
-    build,
-    copy,
+  async () => {
+    paths.acars = '../Content/config/default'
+  },
+  build,
+  copy,
 )
 
 /**
@@ -80,8 +96,8 @@ function build_dist() {
  * Build a distribution zip file, which can be easily uploaded
  */
 export const dist = series(
-    build,
-    build_dist,
+  build,
+  build_dist,
 )
 
 /**
@@ -89,17 +105,17 @@ export const dist = series(
  * to the config directory. ACARS should auto-reload
  */
 export async function testing() {
-    watch('src/', {
-        ignoreInitial: false,
-        delay: 500,
-    }, series(build, copy))
+  watch('src/', {
+    ignoreInitial: false,
+    delay: 500,
+  }, series(build, copy))
 }
 
 /**
  * Watch the files and distribute them out
  */
 export function watchFiles() {
-    watch('src/', build)
+  watch('src/', build)
 }
 
 export { watchFiles as watch }
@@ -108,12 +124,12 @@ export { watchFiles as watch }
  * Clean up the /dest directory
  */
 export async function clean() {
-    try {
-        await deleteAsync([paths.dist])
-        await Promise.resolve()
-    } catch (e) {
-        console.log(e)
-    }
+  try {
+    await deleteAsync([paths.dist])
+    await Promise.resolve()
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 /**
