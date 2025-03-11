@@ -13,7 +13,7 @@
     "lint": "eslint --fix",
     "format": "prettier --ignore-path .gitignore --write \"src/**/*.+(js|ts)\"",
     "testing": "gulp testing",
-    "watch": "gulp watch"
+    "local": "gulp local"
   },
   "keywords": [],
   "author": "Nabeel Shahzad <nabeel@vmslabs.net>",
@@ -32,6 +32,7 @@
     "gulp-minify": "^3.1.0",
     "gulp-prettier": "^6.0.0",
     "gulp-typescript": "^6.0.0-alpha.1",
+    "gulplog": "^2.2.0",
     "merge2": "^1.4.1",
     "prettier": "^3.3.3",
     "typescript": "^5.5.4"

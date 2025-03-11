@@ -8,10 +8,9 @@ import minify from 'gulp-minify'
 
 dotconfig.config()
 
-// console.log(process.env)
-
 /**
  * Different paths we use...
+ * Don't modify this directly, use the environment variables
  */
 const paths = {
   src: './src',
@@ -25,11 +24,65 @@ const paths = {
 }
 
 /**
+ * Build the project, copy the appropriate files over
+ * @public
+ */
+export const build = series(buildTsTask, copyPackageTask)
+
+/**
+ * Build a distribution zip file, which can be easily uploaded
+ * @public
+ */
+export const dist = series(
+  build,
+  buildZipTask,
+)
+
+/**
+ * Watch the files and distribute them to the
+ * documents/vmsacars/data/<profile>/config directory
+ * @public
+ */
+export const local = localTask
+
+
+/**
+ * The default action
+ * @default
+ * @public
+ */
+export default build
+
+
+/**
+ * The build steps that run from the csproj
+ * Force the output path to go into our build directory
+ * @internal
+ */
+export const csbuild = series(
+  async () => {
+    paths.acars = '../Content/config/default'
+  },
+  build,
+  copyFilesToScriptsPathTask,
+)
+
+/**
+ *
+ *
+ *
+ */
+
+/**
  * Configure the ts transpilation
  */
 const tsProject = ts.createProject('tsconfig.json')
 
-function build_ts() {
+/**
+ * Build the Typescript files
+ * @returns {module:stream.Stream.Transform | *}
+ */
+async function buildTsTask() {
   let pipeline = tsProject.src()
     .pipe(eslint())
     .pipe(eslint.failAfterError())
@@ -43,7 +96,8 @@ function build_ts() {
     mangle: false,
   }))*/
 
-  pipeline = pipeline.pipe(dest(paths.dist))
+  pipeline = pipeline
+    .pipe(dest(paths.dist))
 
   return pipeline
 }
@@ -52,78 +106,61 @@ function build_ts() {
  *
  * @returns {*}
  */
-function copy_package() {
+async function copyPackageTask() {
   return src([paths.src + '/package.json'])
     .pipe(dest(paths.dist))
 }
 
 /**
- * Build the project, copy the appropriate files over
- */
-export const build = series(build_ts, copy_package)
-
-/**
  * Copy the files from dist into ACARS_SCRIPTS_PATH
  *
  */
-export function copy() {
+export async function copyFilesToScriptsPathTask() {
   console.log(`Copying files to ${paths.acars}`)
 
-  return src(['./**/*', '!node_modules/**/*'], { 'cwd': paths.dist })
+  return src(
+    [
+      './**/*',
+      '!node_modules/**/*',
+    ],
+    { 'cwd': paths.dist },
+  )
     .pipe(dest(paths.acars))
 }
 
-/**
- * The build steps that run from the csproj
- * Force the output path to go into our build directory
- */
-export const csbuild = series(
-  async () => {
-    paths.acars = '../Content/config/default'
-  },
-  build,
-  copy,
-)
 
 /**
  * TODO: Build the distribution zip file
  */
-function build_dist() {
+function buildZipTask() {
 
 }
 
-/**
- * Build a distribution zip file, which can be easily uploaded
- */
-export const dist = series(
-  build,
-  build_dist,
-)
 
 /**
  * Watch the src folder for updates, compile them and then copy them
  * to the config directory. ACARS should auto-reload
  */
-export async function testing() {
+export async function testingTask() {
   watch('src/', {
     ignoreInitial: false,
     delay: 500,
-  }, series(build, copy))
+  }, series(build, copyFilesToScriptsPathTask))
 }
 
 /**
- * Watch the files and distribute them out
+ * Watch the files and then build and copy them to the documents directory
  */
-export function watchFiles() {
-  watch('src/', build)
+export async function localTask() {
+  return watch('src/', { ignoreInitial: false }, series(build, copyFilesToScriptsPathTask), function() {
+    cb()
+  })
 }
-
-export { watchFiles as watch }
 
 /**
  * Clean up the /dest directory
  */
-export async function clean() {
+export async function cleanTask() {
   try {
     await deleteAsync([paths.dist])
     await Promise.resolve()
@@ -131,41 +168,3 @@ export async function clean() {
     console.log(e)
   }
 }
-
-/**
- * The default action
- */
-export default build
-
-/**
- * Get the default profile name
- *
- * @returns {*}
- */
-/*async function getDefaultProfilePath() {
-    if (profileName === null || profileName === '') {
-        const f = await fs.promises.readFile(`${paths.acars}/settings.json`)
-        const settings = JSON.parse(f)
-        profileName = settings.Profile
-        console.log('No profile name set, looked in settings and used ' + profileName)
-    }
-
-    // Read all of the profiles
-    let dirent
-    const dir = await fs.promises.opendir(`${paths.acars}/profiles`)
-    for await (const dirent of dir) {
-        const pf = await fs.promises.readFile(`${dirent.parentPath}/${dirent.name}`)
-        if (pf === null) {
-            continue
-        }
-
-        const profile = JSON.parse(pf)
-        console.log(profile)
-
-        if (profile.Name === profileName) {
-            return `${paths.acars}/data/${profile.Domain}/config/`
-        }
-    }
-
-    return null
-}*/
