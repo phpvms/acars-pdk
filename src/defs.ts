@@ -19,7 +19,7 @@ export enum GateType {
   /** Added for MSFS */
   Gate_Extra = 15,
   /** Added for MSFS */
-  Jetway = 16
+  Jetway = 16,
 }
 /** The runway/taxiway surface */
 export enum Surface {
@@ -47,13 +47,13 @@ export enum Surface {
   Sand = 21,
   Shale = 22,
   Tarmac = 23,
-  Unknown = 99999
+  Unknown = 99999,
 }
 export enum AircraftType {
   Airliner = 0,
   Cargo = 1,
   GeneralAviation = 2,
-  Helicopter = 3
+  Helicopter = 3,
 }
 /** The type of engine */
 export enum EngineType {
@@ -62,7 +62,7 @@ export enum EngineType {
   None = 2,
   Helo = 3,
   Rocket = 4,
-  Turboprop = 5
+  Turboprop = 5,
 }
 export enum SimType {
   None = 0,
@@ -75,13 +75,13 @@ export enum SimType {
   /** Specifically only for MSFS 2020 */
   FlightSimulator2020 = 6,
   /** Specifically only for MSFS 2024 */
-  FlightSimulator2024 = 7
+  FlightSimulator2024 = 7,
 }
 export enum FareType {
   /** Primarily a passenger flight */
   Passenger = 0,
   /** Primarily a cargo flight */
-  Cargo = 1
+  Cargo = 1,
 }
 /** The different types of flight plans that can be parsed */
 export enum FlightPlanType {
@@ -94,7 +94,7 @@ export enum FlightPlanType {
   /** Flightplan was created using SimBrief */
   SimBrief = 3,
   /** Flightplan was create using Flight Simulator */
-  MsFs = 4
+  MsFs = 4,
 }
 /** The PIREP states - these match the phase */
 export enum PirepState {
@@ -131,7 +131,7 @@ export enum PirepState {
   /** The aircraft is on block at the gate */
   OnBlock = 15,
   /** The aircraft is climbing to its cruise altitude */
-  InitialClimb = 16
+  InitialClimb = 16,
 }
 /** The simtype for the rule file */
 export enum AircraftConfigSimType {
@@ -142,7 +142,7 @@ export enum AircraftConfigSimType {
   /** Configuration for MSFS 2020 *only* */
   MsFs20 = 3,
   /** Configuration for MSFS 2024 *only* */
-  MsFs24 = 4
+  MsFs24 = 4,
 }
 /** Features of an aircraft. They are binary on or off */
 export enum AircraftFeature {
@@ -166,7 +166,7 @@ export enum AircraftFeature {
   Transponder = 17,
   LandingGear = 18,
   Autopilot = 19,
-  ExternalPower = 20
+  ExternalPower = 20,
 }
 /** The type of the dataref */
 export enum FeatureType {
@@ -177,5 +177,5 @@ export enum FeatureType {
   /** An array of integers */
   IntArray = 3,
   /** An array of numbers */
-  NumberArray = 4
+  NumberArray = 4,
 }
