@@ -1,5 +1,5 @@
-import { RuleValue } from './rule'
 import { AircraftFeature } from '../defs'
+import { RuleValue } from './rule'
 
 declare global {
   namespace Acars {

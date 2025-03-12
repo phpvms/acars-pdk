@@ -1,13 +1,11 @@
 import dotconfig from '@dotenvx/dotenvx'
 import { deleteSync as del } from 'del'
+import fs from 'fs'
 import { dest, series, src, watch } from 'gulp'
 import eslint from 'gulp-eslint-new'
-import ts from 'gulp-typescript'
 import prettier from 'gulp-prettier'
+import ts from 'gulp-typescript'
 import zip from 'gulp-zip'
-import tap from 'gulp-tap'
-import minify from 'gulp-minify'
-import fs from 'fs'
 
 dotconfig.config()
 
@@ -57,7 +55,7 @@ export const dist = series(
  * documents/vmsacars/data/<profile>/config directory
  * @public
  */
-export const local = localBuildTask
+export const dev = localBuildTask
 
 /**
  * The build steps that run from the csproj

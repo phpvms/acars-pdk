@@ -9,11 +9,12 @@
     "clean": "gulp clean",
     "copy": "gulp copy",
     "csbuild": "gulp csbuild",
+    "dev": "gulp dev",
     "dist": "gulp dist",
     "export": "gulp dist",
     "format": "prettier --ignore-path .gitignore --write \"src/**/*.+(js|ts)\"",
     "lint": "eslint --fix",
-    "local": "gulp local",
+    "local": "gulp dev",
     "testing": "gulp testing",
     "tsbuild": "tsc --build"
   },
