@@ -29,10 +29,7 @@ const paths = {
  * Build the project, copy the appropriate files over
  * @public
  */
-export const build = series(
-  buildTsTask,
-  copyPackageJsonTask,
-)
+export const build = series(buildTsTask, copyPackageJsonTask)
 
 /**
  * Clean the build directories
@@ -44,11 +41,7 @@ export const clean = cleanTask
  * Build a distribution zip file, which can be easily uploaded
  * @public
  */
-export const dist = series(
-  clean,
-  build,
-  buildZipTask,
-)
+export const dist = series(clean, build, buildZipTask)
 
 /**
  * Watch the files and distribute them to the
@@ -69,7 +62,6 @@ export const csbuild = series(
   build,
   copyFilesToAcarsPathTask,
 )
-
 
 /**
  * The default action
@@ -99,20 +91,19 @@ function buildTsTask() {
     fs.mkdirSync(paths.out)
   }
 
-  let pipeline = tsProject.src()
+  let pipeline = tsProject
+    .src()
     .pipe(eslint())
     .pipe(eslint.failAfterError())
     .pipe(tsProject())
-    .js
-    .pipe(prettier())
+    .js.pipe(prettier())
+    .pipe(dest(paths.out))
 
   // Minify/mangle output
   /*
   pipeline = pipeline.pipe(minify({
     mangle: false,
   }))*/
-
-  pipeline = pipeline.pipe(dest(paths.out))
 
   return pipeline
 }
@@ -122,8 +113,7 @@ function buildTsTask() {
  *
  */
 function copyPackageJsonTask() {
-  return src([paths.src + '/package.json'])
-    .pipe(dest(paths.out))
+  return src([paths.src + '/package.json']).pipe(dest(paths.out))
 }
 
 /**
@@ -132,16 +122,10 @@ function copyPackageJsonTask() {
 function copyFilesToAcarsPathTask() {
   console.log(`Copying files to ${paths.acars}`)
 
-  return src(
-    [
-      './**/*',
-      '!node_modules/**/*',
-    ],
-    { 'cwd': paths.out },
+  return src(['./**/*', '!node_modules/**/*'], { cwd: paths.out }).pipe(
+    dest(paths.acars),
   )
-    .pipe(dest(paths.acars))
 }
-
 
 /**
  * Build the zip that should get uploaded
@@ -152,12 +136,14 @@ function buildZipTask() {
     fs.mkdirSync(paths.export)
   }
 
-  return src(paths.out + '/**/*', { base: paths.out })
-    /*.pipe(tap(function (file) {
+  return (
+    src(paths.out + '/**/*', { base: paths.out })
+      /*.pipe(tap(function (file) {
       console.log('file: ' + file.path)
     }))*/
-    .pipe(zip(process.env.ACARS_DIST_ZIP, { buffer: true}))
-    .pipe(dest(paths.export))
+      .pipe(zip(process.env.ACARS_DIST_ZIP, { buffer: true }))
+      .pipe(dest(paths.export))
+  )
 }
 
 /**
@@ -167,7 +153,7 @@ function localBuildTask() {
   return watch(
     paths.src,
     { ignoreInitial: false },
-    series(build, copyFilesToAcarsPathTask)
+    series(build, copyFilesToAcarsPathTask),
   )
 }
 
@@ -175,8 +161,17 @@ function localBuildTask() {
  * Clean up the /dest directory
  */
 async function cleanTask() {
-  return del([
-    paths.out,
-    paths.export + '/' + process.env.ACARS_DIST_ZIP
-  ])
+  return del([paths.out, paths.export + '/' + process.env.ACARS_DIST_ZIP])
+}
+
+/**
+ * Copy the PDK files to the PDK and config repos
+ * @internal
+ * @returns {Promise<void>}
+ */
+function updatePdk() {
+  if (!process.env.PDK_DEST || !process.env.CFG_DEST) {
+    console.error('PDK_DEST and CFG_DEST must be set')
+    return
+  }
 }

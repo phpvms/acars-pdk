@@ -96,7 +96,11 @@ export enum FlightPlanType {
   /** Flightplan was create using Flight Simulator */
   MsFs = 4,
 }
-/** The PIREP states - these match the phase */
+/**
+ * The PIREP states - these match the phase
+ *             https://skybrary.aero/articles/pilot-report-pirep
+ *             https://www.icao.int/safety/airnavigation/AIG/Documents/ADREP%20Taxonomy/ECCAIRS%20Aviation%201.3.0.12%20(VL%20for%20AttrID%20%20391%20-%20Event%20Phases).pdf
+ */
 export enum PirepState {
   /** Internal only. Rules are not parsed in this state */
   NotRunning = 0,
@@ -178,4 +182,6 @@ export enum FeatureType {
   IntArray = 3,
   /** An array of numbers */
   NumberArray = 4,
+  /** A byte */
+  Byte = 5,
 }

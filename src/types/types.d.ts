@@ -1,13 +1,11 @@
-import {
-  AircraftFeature,
-  AircraftType,
-  EngineType,
-  FlightPlanType,
-  GateType,
-  PirepState,
-  SimType,
-  Surface,
-} from '../defs'
+import { EngineType } from '../defs'
+import { AircraftFeature } from '../defs'
+import { AircraftType } from '../defs'
+import { FlightPlanType } from '../defs'
+import { GateType } from '../defs'
+import { SimType } from '../defs'
+import { PirepState } from '../defs'
+import { Surface } from '../defs'
 
 /** Point-in-time telemetry from the aircraft */
 export interface Telemetry {
