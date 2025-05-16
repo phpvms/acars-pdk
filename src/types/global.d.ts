@@ -9,16 +9,26 @@ declare global {
      */
     function IsFeatureEnabled(feature: AircraftFeature): boolean {}
     /** Get something from storage */
-    function Get(key: string): string {}
+    function Get(key: string): any {}
     /** Save something to storage */
-    function Set(key: string, value?: string): void {}
+    function Set(key: string, value?: any): void {}
     /**
-     * @param key
-     * @param value
+     * Sets a property on the PIREP using the specified key and value.
+     *
+     * @param key The property key .
+     * @param value The value
+     * @returns A task representing the asynchronous operation of updating the PIREP property.
      */
     function SetPirepField(key: string, value: string): void {}
-    /** Add something to the PIREP log */
+    /** Add a message to the PIREP log */
     function AddPirepLog(message: string): void {}
+    /**
+     * Adds a PIREP log but only once, identified by a key
+     *
+     * @param key
+     * @param message
+     */
+    function AddPirepLogOnce(key: string, message: string): void {}
     /**
      * @param name
      */
@@ -56,6 +66,25 @@ declare global {
       timeout: number,
       callback: () => RuleValue,
     ): RuleValue {}
+    /**
+     * Run a callback after a delay.
+     *
+     * @param name
+     * @param timeout In milliseconds
+     * @param callback
+     * @returns Non-zero with the points to deduct
+     */
+    function RunAfterDelay(
+      name: string,
+      timeout: number,
+      callback: (arg: any, arg1: any[]) => any,
+    ): void {}
+    /**
+     * Plays an audio file using the provided filename.
+     *
+     * @param filename The name of the audio file to be played. Relative to the sounds directory
+     */
+    function PlayAudio(filename: string): void {}
     /**
      * Determine if a number is within a percentage of a level
      *
