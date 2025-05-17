@@ -17,12 +17,11 @@ This PDK includes build scripts to:
 
 ---
 
-# A simple "how to"
+# The General Steps
 
-Fork this repository. Follow the setup below. Then start editing the scripts in
-the `/src` directory.
-
-The general steps:
+First, fork this repository. Follow the setup below. Then start editing the
+scripts in the `/src` directory, depending on what you want to do. Then, you
+can distribute it to your pilots.
 
 - Complete the setup, including the `.env` file
 - Disable downloading the latest updates
