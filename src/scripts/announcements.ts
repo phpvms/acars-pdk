@@ -40,24 +40,34 @@ export default class Annoucements implements CallbackHook {
     newPhase: PirepState,
     oldPhase: PirepState,
   ) {
-    if (newPhase == PirepState.Pushback) {
-      Acars.PlayAudio('pushback.mp3')
-    } else if (newPhase == PirepState.TaxiIn) {
-      Acars.PlayAudio('taxi_in.mp3')
-    } else if (newPhase == PirepState.TaxiOut) {
-      Acars.PlayAudio('taxi_out.mp3')
-    } else if (newPhase == PirepState.Takeoff) {
-      Acars.PlayAudio('takeoff.mp3')
-    } else if (newPhase == PirepState.Enroute) {
-      Acars.PlayAudio('enroute.mp3')
-    } else if (newPhase == PirepState.Approach) {
-      Acars.PlayAudio('approach.mp3')
-    } else if (newPhase == PirepState.Final) {
-      Acars.PlayAudio('landing.mp3')
-    } else if (newPhase == PirepState.Landed) {
-      Acars.PlayAudio('landing.mp3')
-    } else if (newPhase == PirepState.Arrived) {
-      Acars.PlayAudio('arrived.mp3')
+    switch (newPhase) {
+      case PirepState.Pushback:
+        Acars.PlayAudio('pushback.mp3')
+        break
+      case PirepState.TaxiOut:
+        Acars.PlayAudio('taxi_out.mp3')
+        break
+      case PirepState.Takeoff:
+        Acars.PlayAudio('takeoff.mp3')
+        break
+      case PirepState.Enroute:
+        Acars.PlayAudio('enroute.mp3')
+        break
+      case PirepState.Approach:
+        Acars.PlayAudio('approach.mp3')
+        break
+      case PirepState.Final:
+        Acars.PlayAudio('landing.mp3')
+        break
+      case PirepState.Landed:
+        Acars.PlayAudio('landing.mp3')
+        break
+      case PirepState.TaxiIn:
+        Acars.PlayAudio('taxi_in.mp3')
+        break
+      case PirepState.Arrived:
+        Acars.PlayAudio('arrived.mp3')
+        break
     }
   }
 }
