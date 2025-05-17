@@ -29,7 +29,7 @@ const paths = {
  * Build the project, copy the appropriate files over
  * @public
  */
-export const build = series(buildTsTask, copyPackageJsonTask)
+export const build = series(buildTsTask, copySoundsTask, copyPackageJsonTask)
 
 /**
  * Clean the build directories
@@ -106,6 +106,14 @@ function buildTsTask() {
   }))*/
 
   return pipeline
+}
+
+/**
+ * This copies the package.json file to the output directory
+ *
+ */
+function copySoundsTask() {
+  return src([paths.src + '/sounds/**/*']).pipe(dest(paths.out + '/sounds'))
 }
 
 /**

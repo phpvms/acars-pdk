@@ -14,34 +14,33 @@ export default class ExampleScript implements CallbackHook {
   }
 
   setup() {
-    Acars.Set('above_1k', false)
-    Acars.Set('launched_message', false)
+    Acars.Set('above_18k', false)
   }
 
   /**
-   * This once a second.
+   * This runs about once a second.
    * @param pirep
    * @param data
    */
   run(pirep: Pirep, data: Telemetry): void {
     Acars.AddPirepLogOnce('script_loaded', 'Example script loaded')
-    if (Acars.Get('launched_message') === false) {
-      Acars.SetPirepField('Loaded', 'True')
+    Acars.SetPirepField('Example Script Loaded', 'True')
 
-      Acars.Set('launched_message', true)
+    this.descentAnnouncement(data)
+  }
+
+  /**
+   * See if we should play the descent announcement. It should only play
+   * if we were above 18k', and now are below 16k or so
+   * @param data
+   */
+  descentAnnouncement(data: Telemetry) {
+    if (data.groundAltitude.Feet > 18000) {
+      Acars.Set('above_18k', false)
     }
 
-    if (data.groundAltitude.Feet > 1000) {
-      Acars.Set('above_1k', true)
-      Acars.SetPirepField('Above 1000 feet', 'True')
-    }
-
-    /*
-     * Just a silly example, if they crossed above 1000 feet and then they went
-     * back below it, send a message about that
-     */
-    if (Acars.Get('above_1k') === true && data.groundAltitude.Feet < 1000) {
-      Acars.AddPirepLog("Went above 1000', now back down")
+    if (data.groundAltitude.Feet < 16000 && Acars.Get('above_18k')) {
+      Acars.PlayAudio('descent_annoucement.mp3')
     }
   }
 
@@ -58,9 +57,8 @@ export default class ExampleScript implements CallbackHook {
     newPhase: PirepState,
     oldPhase: PirepState,
   ) {
-    Acars.AddPirepLog(`Phase changed from ${oldPhase} to ${newPhase}`)
     if (newPhase == PirepState.Pushback) {
-      Acars.PlayAudio('departure.mp3')
+      Acars.PlayAudio('pushback.mp3')
     }
   }
 }
