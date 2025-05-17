@@ -17,7 +17,23 @@ This PDK includes build scripts to:
 
 ---
 
-# Structure
+# A simple "how to"
+
+Fork this repository. Follow the setup below. Then start editing the scripts in
+the `/src` directory.
+
+The general steps:
+
+- Complete the setup, including the `.env` file
+- Disable downloading the latest updates
+- Run `npm run dev` to then test in ACARS
+- Run `npm run dist` to create the ZIP
+- Upload this zip somewhere
+- Update the phpVMS ACARS Admin to point to the above URL
+- ???
+- Profit!
+
+### Structure
 
 All of the scripts are contained in the `/src` folder.
 
