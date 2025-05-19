@@ -11,7 +11,7 @@ declare global {
     /** Get something from storage */
     function Get(key: string): any {}
     /** Save something to storage */
-    function Set(key: string, value?: any): void {}
+    function Set(key: string, value: any): void {}
     /**
      * Sets a property on the PIREP using the specified key and value.
      *

@@ -1,5 +1,5 @@
 {
-  "name": "plugin",
+  "name": "acars-default",
   "version": "1.0.0",
   "type": "module",
   "config": {

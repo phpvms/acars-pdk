@@ -142,6 +142,9 @@ export abstract class AircraftConfig {
   }
 
   /**
+   *
+   * @param args
+   */
   emergencyLights(...args: any): FeatureState {
     return null
   }
