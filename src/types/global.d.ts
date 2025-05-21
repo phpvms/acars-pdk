@@ -57,12 +57,12 @@ declare global {
      *             where the rule evaluation takes place. This method is evaluated often (many times a second),
      *             and if at any point before the timeout is hit, it will stop and reset.
      *
-     * @param id The ID of the rule to be tracked. You can add additional info
+     * @param name The ID of the rule to be tracked. You can add additional info
      * @param timeout Amount of time, in milliseconds
      * @param callback Needs to return an array matching the RuleValue type
      */
     function ViolatedAfterDelay(
-      id: string,
+      name: string,
       timeout: number,
       callback: () => RuleValue,
     ): RuleValue {}

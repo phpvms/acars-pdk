@@ -236,6 +236,8 @@ export interface FlightPlan {
   pointCount: number
   points: RoutePoint[]
   route: string
+  /** Holds the details of the SimBrief flight plan */
+  simBriefFlightPlan?: SimBriefFlightPlan
   simbriefId: string
   toc?: Coords
   tod?: Coords
@@ -473,6 +475,367 @@ export interface Runway {
   thresholdLocation: Coords
   thresholdOffset: Length
   width: Length
+}
+/** Data Transfer Object for SimBrief flight plan information. */
+export interface SimBriefFlightPlan {
+  /** Aircraft information including type and registration. */
+  aircraft: SimBriefAircraft
+  /** Alternate airport information. */
+  alternate: SimBriefLocation
+  /** Air Traffic Control related information. */
+  atc: SimBriefAtc
+  /** Destination airport information. */
+  destination: SimBriefLocation
+  /** En-route alternate airport identifier. */
+  enrouteAltn: string
+  /** Fuel planning information. */
+  fuel: SimBriefFuel
+  /** General flight information including route, airline, and flight number. */
+  general: SimBriefGeneral
+  /** Generation timestamp. */
+  generated: number
+  /** Parameters related to the flight plan request and generation. */
+  meta: SimBriefParams
+  /** Navigation log containing waypoints and fixes along the route. */
+  navlog: SimBriefNavLog
+  /** Origin airport information. */
+  origin: SimBriefLocation
+  /** Takeoff alternate airport identifier. */
+  takeoffAltn: string
+  /** Text entries associated with the flight plan. */
+  text: string[]
+  /** Flight timing information. */
+  times: SimBriefTimes
+  /** Type of the flight plan. */
+  type: string
+  /** Version number of the flight plan. */
+  version: number
+  /** Weight information for the flight. */
+  weights: SimBriefWeights
+}
+/** Parameters related to the flight plan request and generation. */
+export interface SimBriefParams {
+  /** AIRAC cycle used for the flight plan. */
+  airac: string
+  /** Layout used for the operational flight plan. */
+  ofpLayout: string
+  /** Unique identifier for the request. */
+  requestId: number
+  /** Timestamp when the flight plan was generated. */
+  timeGenerated: number
+  /** Unit system used in the flight plan (metric/imperial). */
+  units: string
+  /** User identifier who created the flight plan. */
+  userId: number
+}
+/** General flight information including route, airline, and flight number. */
+export interface SimBriefGeneral {
+  /** Air distance for the flight. */
+  airDistance: number
+  /** Alternate profile used for the flight plan. */
+  alternateProfile: string
+  /** Average temperature deviation. */
+  avgTempDev: number
+  /** Average tropopause altitude. */
+  avgTropopause: number
+  /** Average wind component. */
+  avgWindComp: number
+  /** Average wind direction. */
+  avgWindDir: number
+  /** Average wind speed. */
+  avgWindSpd: number
+  /** Climb profile used for the flight plan. */
+  climbProfile: string
+  /** Cost index used for the flight. */
+  costIndex: number
+  /** Cruise Mach number. */
+  cruiseMach: number
+  /** Cruise profile used for the flight plan. */
+  cruiseProfile: string
+  /** Cruise true airspeed. */
+  cruiseTas: number
+  /** Descent profile used for the flight plan. */
+  descentProfile: string
+  /** DX remarks for the flight plan. */
+  dxRmk: string
+  /** Flight number for the trip. */
+  flightNumber: string
+  /** Great circle distance of the route. */
+  gcDistance: number
+  /** ICAO code for the airline. */
+  icaoAirline: string
+  /** Initial altitude for the flight. */
+  initialAltitude: number
+  /** Flag indicating if the flight plan uses a detailed profile. */
+  isDetailedProfile: number
+  /** Flag indicating if the flight is ETOPS (Extended-range Twin-engine Operation Performance Standards). */
+  isEtops: number
+  /** Number of passengers on the flight. */
+  passengers: number
+  /** Release number of the flight plan. */
+  release: number
+  /** Reserve profile used for the flight plan. */
+  reserveProfile: string
+  /** Flight route string. */
+  route: string
+  /** Total route distance. */
+  routeDistance: number
+  /** IFPS (Integrated Flight Plan Processing System) route. */
+  routeIfps: string
+  /** Navigraph format route. */
+  routeNavigraph: string
+  /** Step climb information as a string. */
+  stepclimbString: string
+  /** System remarks for the flight plan. */
+  sysRmk: string
+  /** Total fuel burn estimate. */
+  totalBurn: number
+}
+/** Airport or location information. */
+export interface SimBriefLocation {
+  /** Air distance for this segment. */
+  airDistance: number
+  /** Average temperature deviation for this segment. */
+  avgTdv: string
+  /** Average tropopause altitude for this segment. */
+  avgTropopause: number
+  /** Average wind component for this segment. */
+  avgWindComp: string
+  /** Average wind direction for this segment. */
+  avgWindDir: number
+  /** Average wind speed for this segment. */
+  avgWindSpd: number
+  /** Fuel burn estimate for this segment. */
+  burn: number
+  /** Cruise altitude for this segment in feet. */
+  cruiseAltitude: number
+  /** Distance for this segment. */
+  distance: number
+  /** Elevation of the location in feet. */
+  elevation: number
+  /** Estimated time en route for this segment. */
+  ete: number
+  /** FAA code for the location. */
+  faaCode: string
+  /** Great circle distance for this segment. */
+  gcDistance: number
+  /** Ground speed for this segment. */
+  gs: number
+  /** IATA code for the location. */
+  iataCode: string
+  /** ICAO code for the location. */
+  icaoCode: string
+  /** Latitude coordinate. */
+  latitude: number
+  /** Longitude coordinate. */
+  longitude: number
+  /** Name of the location. */
+  name: string
+  /** Planned runway for takeoff or landing. */
+  planRwy: string
+  /** Route for this segment. */
+  route: string
+  /** IFPS (Integrated Flight Plan Processing System) route for this segment. */
+  routeIfps: string
+  /** True airspeed for this segment. */
+  tas: number
+  /** Magnetic track for this segment. */
+  trackMag: number
+  /** True track for this segment. */
+  trackTrue: number
+}
+/** Waypoint or fix information for the navigation log. */
+export interface SimBriefFix {
+  /** Altitude at this fix in feet. */
+  altitudeFeet: number
+  /** Distance to this fix from the previous point. */
+  distance: number
+  /** Magnetic heading to this fix. */
+  headingMag: number
+  /** True heading to this fix. */
+  headingTrue: number
+  /** Identifier of the fix or waypoint. */
+  ident: string
+  /** Flag indicating if the fix is part of a SID or STAR procedure. */
+  isSidStar: number
+  /** Latitude coordinate of the fix. */
+  latitude: number
+  /** Longitude coordinate of the fix. */
+  longitude: number
+  /** Name of the fix or waypoint. */
+  name: string
+  /** Flight stage of this fix (climb, cruise, descent). */
+  stage: string
+  /** Magnetic track to this fix. */
+  trackMag: number
+  /** True track to this fix. */
+  trackTrue: number
+  /** Type of the fix or waypoint. */
+  type: string
+  /** Airway via which this fix is reached. */
+  viaAirway: string
+}
+/** Navigation log containing waypoints and fixes along the route. */
+export interface SimBriefNavLog {
+  /** List of fixes or waypoints in the navigation log. */
+  fix: SimBriefFix[]
+}
+/** Air Traffic Control related information. */
+export interface SimBriefAtc {
+  /** ATC callsign for the flight. */
+  callsign: string
+  /** Alternate FIR (Flight Information Region). */
+  firAltn: string
+  /** Destination FIR (Flight Information Region). */
+  firDest: string
+  /** En-route FIR (Flight Information Region). */
+  firEnroute: string
+  /** ETOPS FIR (Flight Information Region). */
+  firEtops: string
+  /** Origin FIR (Flight Information Region). */
+  firOrig: string
+  /** Flight plan text for ATC filing. */
+  flightplanText: string
+  /** Initial altitude for departure. */
+  initialAlt: number
+  /** Unit for initial altitude (feet, meters). */
+  initialAltUnit: string
+  /** Initial speed for departure. */
+  initialSpd: number
+  /** Unit for initial speed (knots, Mach). */
+  initialSpdUnit: string
+  /** Route string for ATC. */
+  route: string
+  /** IFPS (Integrated Flight Plan Processing System) route for ATC. */
+  routeIfps: string
+  /** Section 18 information for the flight plan. */
+  section18: string
+}
+/** Aircraft information. */
+export interface SimBriefAircraft {
+  /** Equipment codes for the aircraft. */
+  equip: string
+  /** Fleet identification number. */
+  fin: number
+  /** Fuel factor for planning. */
+  fuelfact: number
+  /** IATA code for the aircraft type. */
+  iatacode: number
+  /** ICAO code for the aircraft type. */
+  icaocode: string
+  /** Maximum passenger capacity. */
+  maxPassengers: number
+  /** Name of the aircraft. */
+  name: string
+  /** Registration number of the aircraft. */
+  reg: string
+  /** SELCAL (Selective Calling) code for the aircraft. */
+  selcal: string
+}
+/** Fuel planning information. */
+export interface SimBriefFuel {
+  /** Alternate route fuel burn estimate. */
+  alternateBurn: number
+  /** Average fuel flow rate. */
+  avgFuelFlow: number
+  /** Contingency fuel amount. */
+  contingency: number
+  /** En-route fuel burn estimate. */
+  enrouteBurn: number
+  /** ETOPS fuel amount. */
+  etops: number
+  /** Extra fuel amount. */
+  extra: number
+  /** Maximum fuel tank capacity. */
+  maxTanks: number
+  /** Minimum takeoff fuel required. */
+  minTakeoff: number
+  /** Planned landing fuel amount. */
+  planLanding: number
+  /** Planned ramp fuel amount. */
+  planRamp: number
+  /** Planned takeoff fuel amount. */
+  planTakeoff: number
+  /** Reserve fuel amount. */
+  reserve: number
+  /** Taxi fuel amount. */
+  taxi: number
+}
+/** Flight timing information. */
+export interface SimBriefTimes {
+  /** Contingency fuel time (how long contingency fuel will last). */
+  contfuelTime: number
+  /** Destination timezone offset. */
+  destTimezone: number
+  /** Total fuel endurance. */
+  endurance: number
+  /** Estimated block time (total gate-to-gate time). */
+  estBlock: number
+  /** Estimated in time (gate arrival). */
+  estIn: number
+  /** Estimated off time (takeoff). */
+  estOff: number
+  /** Estimated on time (landing). */
+  estOn: number
+  /** Estimated out time (gate departure). */
+  estOut: number
+  /** Estimated time en route. */
+  estTimeEnroute: number
+  /** ETOPS fuel time (how long ETOPS fuel will last). */
+  etopsfuelTime: number
+  /** Extra fuel time (how long extra fuel will last). */
+  extrafuelTime: number
+  /** Origin timezone offset. */
+  origTimezone: number
+  /** Reserve fuel time (how long reserve fuel will last). */
+  reserveTime: number
+  /** Scheduled block time (total gate-to-gate time). */
+  schedBlock: number
+  /** Scheduled in time (gate arrival). */
+  schedIn: number
+  /** Scheduled off time (takeoff). */
+  schedOff: number
+  /** Scheduled on time (landing). */
+  schedOn: number
+  /** Scheduled out time (gate departure). */
+  schedOut: number
+  /** Scheduled time en route. */
+  schedTimeEnroute: number
+  /** Taxi in time estimate. */
+  taxiIn: number
+  /** Taxi out time estimate. */
+  taxiOut: number
+}
+/** Weight information for the flight. */
+export interface SimBriefWeights {
+  /** Cargo weight. */
+  cargo: number
+  /** Estimated landing weight. */
+  estLdw: number
+  /** Estimated ramp weight. */
+  estRamp: number
+  /** Estimated takeoff weight. */
+  estTow: number
+  /** Estimated zero fuel weight. */
+  estZfw: number
+  /** Maximum landing weight. */
+  maxLdw: number
+  /** Maximum takeoff weight. */
+  maxTow: number
+  /** Maximum structural takeoff weight. */
+  maxTowStruct: number
+  /** Maximum zero fuel weight. */
+  maxZfw: number
+  /** Operating empty weight. */
+  oew: number
+  /** Passenger count. */
+  paxCount: number
+  /** Passenger weight. */
+  paxWeight: number
+  /** Total payload weight (passengers + cargo). */
+  payload: number
+  /** Takeoff weight limit code. */
+  towLimitCode: string
 }
 export interface User {
   airline: Airline
