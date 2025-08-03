@@ -113,7 +113,9 @@ function buildTsTask() {
  *
  */
 function copySoundsTask() {
-  return src([paths.src + '/sounds/**/*']).pipe(dest(paths.out + '/sounds'))
+  return src([paths.src + '/sounds/**/*'], { encoding: false }).pipe(
+    dest(paths.out + '/sounds'),
+  )
 }
 
 /**
