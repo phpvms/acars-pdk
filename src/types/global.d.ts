@@ -53,6 +53,16 @@ declare global {
      */
     function StopTimer(name: string): void {}
     /**
+     * Stops every playing instance of an audio file started with PlayAudio.
+     *
+     * @param filename The name of the audio file to stop. Relative to the sounds directory
+     */
+    function StopAudio(filename: string): void {}
+    /**
+     * Stops all audio files started with PlayAudio.
+     */
+    function StopAllAudio(): void {}
+    /**
      * Determine if the rule has been violated, but only after a delay. Pass in a callback method,
      *             where the rule evaluation takes place. This method is evaluated often (many times a second),
      *             and if at any point before the timeout is hit, it will stop and reset.
